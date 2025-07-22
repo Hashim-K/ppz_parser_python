@@ -36,9 +36,13 @@ class HoverLoopTool(BaseTool):
         axs[0].plot(df["timestamp"], df["east"], label="East (est)")
         axs[0].plot(df["timestamp"], df["north"], label="North (est)")
         axs[0].plot(df["timestamp"], df["up"], label="Up (est)")
-        axs[0].plot(df["timestamp"], df["pe"], label="East (sp)", linestyle="--")
-        axs[0].plot(df["timestamp"], df["pn"], label="North (sp)", linestyle="--")
-        axs[0].plot(df["timestamp"], df["pup"], label="Up (sp)", linestyle="--")
+        axs[0].plot(
+            df["timestamp"], df["carrot_east"], label="East (sp)", linestyle="--"
+        )
+        axs[0].plot(
+            df["timestamp"], df["carrot_north"], label="North (sp)", linestyle="--"
+        )
+        axs[0].plot(df["timestamp"], df["carrot_up"], label="Up (sp)", linestyle="--")
         axs[0].set_title("Position: Estimated vs. Setpoint")
         axs[0].set_ylabel("Position (m)")
         axs[0].legend()
@@ -48,20 +52,20 @@ class HoverLoopTool(BaseTool):
         axs[1].plot(df["timestamp"], df["veast"], label="VEast (est)")
         axs[1].plot(df["timestamp"], df["vnorth"], label="VNorth (est)")
         axs[1].plot(df["timestamp"], df["vup"], label="VUp (est)")
-        axs[1].plot(df["timestamp"], df["pde"], label="VEast (sp)", linestyle="--")
-        axs[1].plot(df["timestamp"], df["pdn"], label="VNorth (sp)", linestyle="--")
-        axs[1].plot(df["timestamp"], df["pdup"], label="VUp (sp)", linestyle="--")
-        axs[1].set_title("Velocity: Estimated vs. Setpoint")
+        axs[1].set_title("Velocity: Estimated")
         axs[1].set_ylabel("Velocity (m/s)")
         axs[1].legend()
         axs[1].grid(True)
 
-        # Plot 3: Acceleration (East, North, Up)
-        axs[2].plot(df["timestamp"], df["ae"], label="Acc East (sp)")
-        axs[2].plot(df["timestamp"], df["an"], label="Acc North (sp)")
-        axs[2].plot(df["timestamp"], df["aup"], label="Acc Up (sp)")
-        axs[2].set_title("Acceleration Setpoints")
-        axs[2].set_ylabel("m/s^2")
+        # Plot 3: Attitude (Roll, Pitch, Yaw)
+        axs[2].plot(df["timestamp"], df["phi"], label="Roll (phi)")
+        axs[2].plot(df["timestamp"], df["theta"], label="Pitch (theta)")
+        axs[2].plot(df["timestamp"], df["psi"], label="Yaw (psi)")
+        axs[2].plot(
+            df["timestamp"], df["carrot_psi"], label="Yaw setpoint", linestyle="--"
+        )
+        axs[2].set_title("Attitude Angles")
+        axs[2].set_ylabel("Angle (rad)")
         axs[2].legend()
         axs[2].grid(True)
 

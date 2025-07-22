@@ -30,9 +30,10 @@ class RotorcraftCmdTool(BaseTool):
         sns.set_theme(style="whitegrid")
         plt.figure(figsize=(15, 8), num="Rotorcraft Commands")
 
-        plt.plot(df["timestamp"], df["roll"], label="Roll CMD")
-        plt.plot(df["timestamp"], df["pitch"], label="Pitch CMD")
-        plt.plot(df["timestamp"], df["yaw"], label="Yaw CMD")
+        plt.plot(df["timestamp"], df["cmd_roll"], label="Roll CMD")
+        plt.plot(df["timestamp"], df["cmd_pitch"], label="Pitch CMD")
+        plt.plot(df["timestamp"], df["cmd_yaw"], label="Yaw CMD")
+        plt.plot(df["timestamp"], df["cmd_thrust"], label="Thrust CMD")
 
         plt.title("Rotorcraft Commands")
         plt.xlabel("Time (s)")

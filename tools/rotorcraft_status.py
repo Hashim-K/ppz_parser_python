@@ -33,38 +33,38 @@ class RotorcraftStatusTool(BaseTool):
         )
         fig.suptitle("Rotorcraft Status", fontsize=16)
 
-        # Plot 1: Failsafe Status
+        # Plot 1: Autopilot Mode
         axs[0].plot(
             df["timestamp"],
-            df["failsafe_mode"],
-            label="Failsafe Mode",
+            df["ap_mode"],
+            label="AP Mode",
             drawstyle="steps-post",
         )
-        axs[0].set_title("Failsafe Status")
+        axs[0].set_title("Autopilot Mode")
         axs[0].set_ylabel("Mode ID")
         axs[0].legend()
         axs[0].grid(True)
 
-        # Plot 2: Vehicle Mode
+        # Plot 2: Horizontal Mode
         axs[1].plot(
             df["timestamp"],
-            df["vehicle_mode"],
-            label="Vehicle Mode",
+            df["ap_h_mode"],
+            label="Horizontal Mode",
             drawstyle="steps-post",
         )
-        axs[1].set_title("Vehicle Mode")
+        axs[1].set_title("Horizontal Mode")
         axs[1].set_ylabel("Mode ID")
         axs[1].legend()
         axs[1].grid(True)
 
-        # Plot 3: Flight Mode
+        # Plot 3: Vertical Mode
         axs[2].plot(
             df["timestamp"],
-            df["flight_mode"],
-            label="Flight Mode",
+            df["ap_v_mode"],
+            label="Vertical Mode",
             drawstyle="steps-post",
         )
-        axs[2].set_title("Flight Mode")
+        axs[2].set_title("Vertical Mode")
         axs[2].set_ylabel("Mode ID")
         axs[2].legend()
         axs[2].grid(True)

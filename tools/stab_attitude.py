@@ -27,6 +27,17 @@ class StabAttitudeTool(BaseTool):
         Generates plots for roll, pitch, and yaw, comparing estimated vs. reference values.
         """
         df = self.parsed_data
+        
+        # Define required columns to check for data availability
+        required_columns = ["roll", "roll_ref", "pitch", "pitch_ref", "yaw", "yaw_ref"]
+        
+        # Check if any of the required columns exist
+        available_columns = [col for col in required_columns if col in df.columns]
+        
+        if not available_columns:
+            print("Skipping Stabilization Attitude plot: No required data columns found.")
+            return
+        
         sns.set_theme(style="whitegrid")
         fig, axs = plt.subplots(
             3, 1, figsize=(15, 12), sharex=True, num="Stabilization Attitude"
@@ -42,16 +53,22 @@ class StabAttitudeTool(BaseTool):
 
         # Create each subplot.
         for title, (est_col, ref_col, ax) in plot_map.items():
+            has_data = False
             if est_col in df.columns:
                 ax.plot(df["timestamp"], df[est_col], label=f"Est. {title}")
+                has_data = True
             if ref_col in df.columns:
                 ax.plot(
                     df["timestamp"], df[ref_col], label=f"Ref. {title}", linestyle="--"
                 )
+                has_data = True
 
             ax.set_title(f"{title} Angle")
             ax.set_ylabel("Angle (rad)")
-            ax.legend()
+
+            # Only add legend if there's data to show
+            if has_data:
+                ax.legend()
             ax.grid(True)
 
         plt.xlabel("Time (s)")
