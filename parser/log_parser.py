@@ -59,6 +59,10 @@ class PaparazziLogParser:
         # Group the DataFrame by message name to process each message type separately.
         for msg_name, group in df.groupby("message_name"):
             if msg_name not in self.message_definitions:
+                # Create a generic message entry for undefined messages
+                parsed_data[msg_name] = group[["timestamp", "ac_id"]].copy()
+                # Add the raw values for potential generic event detection
+                parsed_data[msg_name]["raw_values"] = group["values"]
                 continue
 
             msg_def = self.message_definitions[msg_name]
@@ -154,7 +158,17 @@ class PaparazziLogParser:
                 "SERIAL_ACT_T4_IN",
                 "SERIAL_ACT_T4_OUT",
             ],
-            "power": ["ENERGY", "POWER_DEVICE", "ESC", "POWER"],
+            "power": [
+                "ENERGY",
+                "POWER_DEVICE",
+                "ESC",
+                "POWER",
+                "CURRENT_SPIKE",
+                "POWER_DISTRIBUTION",
+                "CHARGING_STATUS",
+                "CELL_BALANCE",
+                "THERMAL_THROTTLE",
+            ],
             "system": [
                 "ROTORCRAFT_STATUS",
                 "I2C_ERRORS",
@@ -164,6 +178,34 @@ class PaparazziLogParser:
             "control": ["INDI_ROTWING", "EFF_MAT", "ROTWING_STATE"],
             "sensors": ["AIRSPEED"],
             "ekf": ["EKF2_STATE", "EKF2_P_DIAG", "EKF2_INNOV"],
+            "safety": [
+                "EMERGENCY",
+                "GEOFENCE_BREACH",
+                "COLLISION_AVOIDANCE",
+                "TRAFFIC",
+                "TERRAIN_FOLLOWING",
+                "OBSTACLE_DETECTION",
+                "LOSS_OF_CONTROL",
+                "STALL_WARNING",
+                "OVER_SPEED",
+                "ALTITUDE_LIMIT",
+            ],
+            "communications": [
+                "TELEMETRY_STATUS",
+                "RADIO_STATUS",
+                "MODEM_STATUS",
+                "LINK_QUALITY",
+                "PACKET_LOSS",
+                "RSSI_LOW",
+            ],
+            "mission": [
+                "MISSION_ITEM",
+                "HOME_POSITION",
+                "RALLY_POINT",
+                "SURVEY_STATUS",
+                "LANDING_SEQUENCE",
+                "APPROACH",
+            ],
         }
 
         for group_name, msg_list in functional_groups.items():
